@@ -1,5 +1,6 @@
 import {StyleSheet} from 'react-native';
 import Theme, {normalized} from '../../Theme';
+import {scale, verticalScale, moderateScale} from 'react-native-size-matters';
 
 export const styles = StyleSheet.create({
   container: {
@@ -17,7 +18,28 @@ export const styles = StyleSheet.create({
   },
   mainView: {
     flex: 1,
+  },
+  item: {
+    flexDirection: 'row',
+    margin: normalized.width(1.5),
+    padding: normalized.width(2),
+    borderRadius: scale(10),
+    backgroundColor: Theme.colors.dimWhite,
+  },
+  itemView1: {
+    flex: 1,
     justifyContent: 'center',
     alignItems: 'center',
+    borderRadius: scale(100),
+  },
+  itemView2: {
+    flex: 9,
+    justifyContent: 'center',
+    alignItems: 'baseline',
+  },
+  itemText: {
+    color: Theme.colors.black,
+    fontSize: Theme.fontSizes.medium,
+    fontWeight: '600',
   },
 });

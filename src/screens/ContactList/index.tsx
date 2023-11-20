@@ -1,7 +1,7 @@
-import {ImageBackground, Text, View} from 'react-native';
+import {FlatList, Image, ImageBackground, Text, View} from 'react-native';
 import React, {useEffect, useState} from 'react';
 import {styles} from './style';
-import {Header} from '../../components';
+import {ContactItem, Header} from '../../components';
 import Contacts from 'react-native-contacts';
 
 export default function ContactList(): JSX.Element {
@@ -37,6 +37,24 @@ export default function ContactList(): JSX.Element {
       setContacts(contacts);
     });
   };
+  const renderItem = ({item}: {item: any}) => {
+    return (
+      <View style={styles.item}>
+        <View style={styles.itemView1}>
+          <Image
+            source={
+              item?.hasThumbnail
+                ? {uri: item?.thumbnailPath}
+                : require('../../assets/images/contactDefault.png')
+            }
+          />
+        </View>
+        <View style={styles.itemView2}>
+          <Text style={styles.itemText}>{}</Text>
+        </View>
+      </View>
+    );
+  };
   return (
     <View style={styles.container}>
       <ImageBackground
@@ -45,7 +63,19 @@ export default function ContactList(): JSX.Element {
         blurRadius={40}>
         <Header title="Contacts" />
         <View style={styles.mainView}>
-          <Text style={styles.text}>Open App.tsx to start creating app</Text>
+          <FlatList
+            showsVerticalScrollIndicator={false}
+            data={contacts}
+            keyExtractor={(item, index) => index.toString()}
+            renderItem={({item}) => (
+              <ContactItem
+                name={item?.jobTitle}
+                image={item?.thumbnailPath}
+                phone={item?.phoneNumbers}
+                onCallPress={() => console.log('Call icon pressed...')}
+              />
+            )}
+          />
         </View>
       </ImageBackground>
     </View>
