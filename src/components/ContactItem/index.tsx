@@ -1,7 +1,7 @@
 import {Image, StyleSheet, Text, TouchableOpacity, View} from 'react-native';
 import React, {useState} from 'react';
 import {scale, verticalScale, moderateScale} from 'react-native-size-matters';
-import Theme from '../../Theme';
+import Theme, {normalized} from '../../Theme';
 import CustomText from '../CustomText';
 import Collapsible from 'react-native-collapsible';
 import {Icon} from 'react-native-elements';
@@ -78,6 +78,8 @@ const styles = StyleSheet.create({
     flex: 2,
     padding: scale(10),
     alignItems: 'center',
+    justifyContent: 'center',
+    height: normalized.width(27),
   },
   centerView: {
     flex: 7,
@@ -108,6 +110,8 @@ const styles = StyleSheet.create({
   callView: {
     flex: 1,
     alignItems: 'center',
+    justifyContent: 'center',
     padding: scale(15),
+    height: normalized.width(27),
   },
 });
