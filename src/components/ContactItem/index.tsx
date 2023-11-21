@@ -1,7 +1,6 @@
 import {Image, StyleSheet, Text, TouchableOpacity, View} from 'react-native';
 import React, {useState} from 'react';
-import {scale, verticalScale, moderateScale} from 'react-native-size-matters';
-import Theme, {normalized} from '../../Theme';
+import Theme, {moderateScale, normalized, scale} from '../../Theme';
 import CustomText from '../CustomText';
 import Collapsible from 'react-native-collapsible';
 import {Icon} from 'react-native-elements';

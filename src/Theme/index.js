@@ -4,6 +4,10 @@ import {
   responsiveFontSize as fontSize,
 } from 'react-native-responsive-dimensions';
 
+import {scale, verticalScale, moderateScale} from 'react-native-size-matters';
+
+export {scale, verticalScale, moderateScale};
+
 export const normalized = {height, width, fontSize};
 
 export default Theme = {
@@ -12,6 +16,7 @@ export default Theme = {
     dimWhite: 'rgba(255, 255, 255, 0.75)',
     black: '#000',
     gray: '#808080',
+    lightGray: '#D3D3D3',
     lightblue: 'lightblue',
     yellow: '#e8ae0d',
   },

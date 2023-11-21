@@ -1,11 +1,20 @@
 import {FlatList, Image, ImageBackground, Text, View} from 'react-native';
 import React, {useEffect, useState} from 'react';
 import {styles} from './style';
-import {ContactItem, Header} from '../../components';
+import {ContactItem, Header, NumbersList} from '../../components';
 import Contacts from 'react-native-contacts';
 
 export default function ContactList(): JSX.Element {
   const [contacts, setContacts] = useState<any[]>([]);
+  const [call, setCall] = useState<{
+    condition: boolean;
+    phone: any[];
+    name: string;
+  }>({
+    condition: false,
+    phone: [],
+    name: '',
+  });
 
   useEffect(() => {
     // Request permission and load contacts
@@ -37,24 +46,9 @@ export default function ContactList(): JSX.Element {
       setContacts(contacts);
     });
   };
-  const renderItem = ({item}: {item: any}) => {
-    return (
-      <View style={styles.item}>
-        <View style={styles.itemView1}>
-          <Image
-            source={
-              item?.hasThumbnail
-                ? {uri: item?.thumbnailPath}
-                : require('../../assets/images/contactDefault.png')
-            }
-          />
-        </View>
-        <View style={styles.itemView2}>
-          <Text style={styles.itemText}>{}</Text>
-        </View>
-      </View>
-    );
-  };
+  useEffect(() => {
+    console.log('🚀 ~ file: index.tsx:51 ~ useEffect ~ call:', call);
+  }, [call]);
   return (
     <View style={styles.container}>
       <ImageBackground
@@ -72,11 +66,23 @@ export default function ContactList(): JSX.Element {
                 name={item?.jobTitle}
                 image={item?.thumbnailPath}
                 phone={item?.phoneNumbers}
-                onCallPress={() => console.log('Call icon pressed...')}
+                onCallPress={() =>
+                  setCall({
+                    condition: true,
+                    phone: item?.phoneNumbers,
+                    name: item?.jobTitle == '' ? 'Unknown' : item?.jobTitle,
+                  })
+                }
               />
             )}
           />
         </View>
+        <NumbersList
+          visible={call.condition}
+          name={call.name}
+          numbers={call.phone}
+          onClose={() => setCall({condition: false, phone: [], name: ''})}
+        />
       </ImageBackground>
     </View>
   );
