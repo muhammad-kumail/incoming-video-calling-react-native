@@ -1,14 +1,15 @@
 import {FlatList, StyleSheet, TouchableOpacity, View} from 'react-native';
 import React, {useEffect, useRef, useState} from 'react';
 import RBSheet from 'react-native-raw-bottom-sheet';
-import Theme, {scale, verticalScale} from '../../Theme';
+import Theme, {normalized, scale, verticalScale} from '../../Theme';
 import CustomText from '../CustomText';
 import Button from '../Button';
+import {labelIcon} from '../../crudMethods';
 
 interface NumbersListProps {
   visible: boolean;
   name: string;
-  numbers: Array<{label: string; number: string; isClicked: boolean}>;
+  numbers: Array<{label: string; number: string}>;
   onClose: () => void;
 }
 
@@ -19,52 +20,60 @@ const NumbersList: React.FC<NumbersListProps> = ({
   onClose,
 }) => {
   const sheetRef = useRef<RBSheet>(null);
-  const [allNumbers, setAllNumbers] = useState<any>(numbers);
+  const [activeIndex, setActiveIndex] = useState<number>(0);
 
   useEffect(() => {
     if (visible) {
       sheetRef.current?.open();
     }
-    console.log(
-      '🚀 ~ file: index.tsx:27 ~ useEffect ~ allNumbers:',
-      allNumbers,
-    );
+    setActiveIndex(0);
   }, [visible]);
-  const updateArr = (index: number) => {
-    var list = [...allNumbers];
-    for (let i = 0; i < list.length; i++) {
-      if (i === index) list[i] = {...list[i], isClicked: true};
-      else list[i] = {...list[i], isClicked: false};
-    }
-    setAllNumbers(list);
-  };
 
   const renderItem = ({
     item,
     index,
   }: {
-    item: {label: string; number: string; isClicked: boolean};
+    item: {label: string; number: string};
     index: number;
   }) => {
     console.log('Numbers:', item);
     return (
       <TouchableOpacity
-        onPress={() => updateArr(index)}
+        onPress={() => setActiveIndex(index)}
         style={{
+          flexDirection: 'row',
           paddingVertical: scale(15),
-          justifyContent: 'center',
+          alignItems: 'center',
           borderBottomWidth: 1,
-          borderColor: item.isClicked
-            ? Theme.colors.yellow
-            : Theme.colors.lightGray,
+          borderColor:
+            activeIndex === index
+              ? Theme.colors.yellow
+              : Theme.colors.lightGray,
         }}>
-        <CustomText
-          style={[
-            styles.number,
-            item.isClicked && {color: Theme.colors.yellow},
-          ]}>
-          {item.number}
-        </CustomText>
+        <View style={{flex: 1}}>
+          {labelIcon(
+            item?.label,
+            activeIndex === index ? Theme.colors.yellow : Theme.colors.black,
+          )}
+        </View>
+        <View style={{flex: 6}}>
+          <CustomText
+            style={[
+              styles.number,
+              activeIndex === index && {color: Theme.colors.yellow},
+            ]}>
+            {item.number}
+          </CustomText>
+        </View>
+        <View style={{flex: 3, alignItems: 'flex-end'}}>
+          <CustomText
+            style={[
+              styles.number,
+              activeIndex === index && {color: Theme.colors.yellow},
+            ]}>
+            ({item?.label})
+          </CustomText>
+        </View>
       </TouchableOpacity>
     );
   };
@@ -72,7 +81,7 @@ const NumbersList: React.FC<NumbersListProps> = ({
   return (
     <RBSheet
       ref={sheetRef}
-      height={verticalScale(numbers.length * 90)}
+      height={numbers.length * normalized.width(15) + normalized.width(45)}
       animationType="fade"
       onClose={onClose}
       closeOnPressBack={true}
@@ -95,21 +104,20 @@ const NumbersList: React.FC<NumbersListProps> = ({
           Choose number for this call
         </CustomText>
         <FlatList
-          data={allNumbers}
+          data={numbers}
           keyExtractor={(item, index) => index.toString()}
           renderItem={renderItem}
         />
       </View>
       <Button
         clickOpacity={0.5}
-        disable={
-          allNumbers?.filter((item: any) => {
-            return item?.isClicked === true;
-          }).length == 0
-        }
+        disable={activeIndex < 0}
         text="Call"
         // loading={true}
-        onPress={() => console.log('Particular Phone number pressed!')}
+        onPress={() => {
+          sheetRef.current?.close();
+          onClose();
+        }}
         style={{marginVertical: scale(15)}}
       />
     </RBSheet>
@@ -124,6 +132,7 @@ const styles = StyleSheet.create({
   },
   number: {
     fontSize: Theme.fontSizes.small,
+    textTransform: 'capitalize',
   },
   name: {
     fontSize: Theme.fontSizes.xmedium,
@@ -131,6 +140,7 @@ const styles = StyleSheet.create({
   },
   subName: {
     color: Theme.colors.gray,
+    paddingVertical: scale(5),
   },
 });
 
