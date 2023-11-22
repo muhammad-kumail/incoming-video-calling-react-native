@@ -42,4 +42,22 @@ export const styles = StyleSheet.create({
     fontSize: Theme.fontSizes.medium,
     fontWeight: '600',
   },
+  searchBarContainerStyle: {
+    backgroundColor: 'transparent',
+    paddingHorizontal: scale(10),
+    paddingTop: scale(10),
+    borderBottomWidth: 0,
+    borderTopWidth: 0,
+  },
+  searchBarInputContainerStyle: {
+    backgroundColor: Theme.colors.dimWhite,
+    borderRadius: moderateScale(4),
+  },
+  searchBarInputStyle: {
+    fontSize: Theme.fontSizes.small,
+    color: Theme.colors.black,
+  },
+  searchBarLeftIconContainerStyle: {
+    paddingLeft: normalized.width(2),
+  },
 });

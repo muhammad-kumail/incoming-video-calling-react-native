@@ -1,9 +1,18 @@
-import {Image, StyleSheet, Text, TouchableOpacity, View} from 'react-native';
+import {
+  Image,
+  Pressable,
+  StyleSheet,
+  Text,
+  TouchableOpacity,
+  View,
+} from 'react-native';
 import React, {useState} from 'react';
 import Theme, {moderateScale, normalized, scale} from '../../Theme';
 import CustomText from '../CustomText';
 import Collapsible from 'react-native-collapsible';
 import {Icon} from 'react-native-elements';
+import {SvgXml} from 'react-native-svg';
+import {defaultAvatar} from '../../assets/svgs';
 interface ContactProps {
   image: any;
   name: string;
@@ -22,14 +31,32 @@ export default function ContactItem({
   return (
     <View style={styles.container}>
       <View style={styles.imgView}>
-        <Image source={image} style={styles.image} />
+        <View
+          style={{
+            backgroundColor: Theme.colors.gray,
+            borderRadius: scale(100),
+            // Shadow for android
+            elevation: 6,
+            // Shadow for iOS
+            shadowColor: 'black',
+            shadowOffset: {width: 0, height: 2},
+            shadowOpacity: 0.3,
+            shadowRadius: 6,
+            overflow: 'hidden',
+          }}>
+          {image ? (
+            <Image source={{uri: image}} style={styles.image} />
+          ) : (
+            <SvgXml xml={defaultAvatar} height={scale(50)} width={scale(50)} />
+          )}
+        </View>
       </View>
-      <TouchableOpacity
+      <Pressable
         style={styles.centerView}
         onPress={() => setIsCollape(!isCollapse)}>
         <View>
           <CustomText style={styles.name}>
-            {name !== '' ? name : 'Unknown'}
+            {name !== '' && name !== undefined ? name : 'Unknown'}
           </CustomText>
           {phone.map(
             (item, index) =>
@@ -52,7 +79,7 @@ export default function ContactItem({
             )}
           </View>
         </Collapsible>
-      </TouchableOpacity>
+      </Pressable>
       <View style={styles.callView}>
         <Icon
           name="call"
@@ -88,14 +115,7 @@ const styles = StyleSheet.create({
     height: scale(50),
     width: scale(50),
     borderRadius: scale(100),
-    backgroundColor: Theme.colors.black,
-    // Shadow for android
-    elevation: 4,
-    // Shadow for iOS
-    shadowColor: 'black',
-    shadowOffset: {width: 0, height: 2},
-    shadowOpacity: 0.3,
-    shadowRadius: 4,
+    // backgroundColor: Theme.colors.black,
   },
   name: {
     fontWeight: '600',

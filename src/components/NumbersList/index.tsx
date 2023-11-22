@@ -36,7 +36,6 @@ const NumbersList: React.FC<NumbersListProps> = ({
     item: {label: string; number: string};
     index: number;
   }) => {
-    console.log('Numbers:', item);
     return (
       <TouchableOpacity
         onPress={() => setActiveIndex(index)}

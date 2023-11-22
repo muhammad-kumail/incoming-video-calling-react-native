@@ -1,11 +1,22 @@
-import {FlatList, Image, ImageBackground, Text, View} from 'react-native';
+import {
+  FlatList,
+  Image,
+  ImageBackground,
+  Text,
+  View,
+  ScrollView,
+  RefreshControl,
+} from 'react-native';
 import React, {useEffect, useState} from 'react';
 import {styles} from './style';
 import {ContactItem, Header, NumbersList} from '../../components';
 import Contacts from 'react-native-contacts';
+import {SearchBar} from 'react-native-elements';
 
 export default function ContactList(): JSX.Element {
   const [contacts, setContacts] = useState<any[]>([]);
+  const [refresh, setRefresh] = useState<boolean>(false);
+  const [searchQuery, setSearchQuery] = useState<string>('');
   const [call, setCall] = useState<{
     condition: boolean;
     phone: any[];
@@ -28,6 +39,7 @@ export default function ContactList(): JSX.Element {
           if (newPermission === 'authorized') {
             // Permission granted, load contacts
             loadContacts();
+            setRefresh(false);
           } else {
             // Handle the case where the user denied permission
             console.warn('Permission denied');
@@ -35,20 +47,42 @@ export default function ContactList(): JSX.Element {
         });
       }
     });
-  }, []);
+  }, [refresh === true]);
 
   const loadContacts = () => {
-    Contacts.getAll().then(contacts => {
-      console.log(
-        '🚀 ~ file: index.tsx:34 ~ Contacts.getAll ~ contacts:',
-        JSON.stringify(contacts),
-      );
-      setContacts(contacts);
-    });
+    Contacts.getAll()
+      .then(contacts => {
+        console.log(
+          '🚀 ~ file: index.tsx:34 ~ Contacts.getAll ~ contacts:',
+          JSON.stringify(contacts),
+        );
+        setContacts(contacts);
+      })
+      .catch(err => {
+        console.log('🚀 ~ file: index.tsx:49 ~ Contacts.getAll ~ err:', err);
+      });
   };
-  useEffect(() => {
-    console.log('🚀 ~ file: index.tsx:51 ~ useEffect ~ call:', call);
-  }, [call]);
+  const loadContactsByName = (name: string) => {
+    if (name.length !== 0) {
+      Contacts.getContactsMatchingString(name)
+        .then(contacts => {
+          contacts;
+          console.log(
+            '🚀 ~ file: index.tsx:67 ~ Contacts.getContactsMatchingString ~ contacts:',
+            JSON.stringify(contacts),
+          );
+          setContacts(contacts);
+        })
+        .catch(err => {
+          console.log(
+            '🚀 ~ file: index.tsx:72 ~ loadContactsByName ~ err:',
+            err,
+          );
+        });
+    } else {
+      loadContacts();
+    }
+  };
   return (
     <View style={styles.container}>
       <ImageBackground
@@ -56,32 +90,58 @@ export default function ContactList(): JSX.Element {
         style={styles.backImage}
         blurRadius={40}>
         <Header title="Contacts" />
-        <View style={styles.mainView}>
-          <FlatList
-            showsVerticalScrollIndicator={false}
-            data={contacts}
-            keyExtractor={(item, index) => index.toString()}
-            renderItem={({item}) => (
+        <SearchBar
+          placeholder="Search by name"
+          containerStyle={styles.searchBarContainerStyle}
+          inputContainerStyle={styles.searchBarInputContainerStyle}
+          inputStyle={styles.searchBarInputStyle}
+          leftIconContainerStyle={styles.searchBarLeftIconContainerStyle}
+          value={searchQuery}
+          onChangeText={(e: string) => {
+            setSearchQuery(e);
+            loadContactsByName(e);
+          }}
+          // round
+        />
+        <ScrollView
+          style={styles.mainView}
+          refreshControl={
+            <RefreshControl
+              refreshing={refresh}
+              onRefresh={() => {
+                setRefresh(true);
+                setTimeout(() => {
+                  setRefresh(false);
+                }, 1000);
+              }}
+            />
+          }>
+          {contacts.map((item, index) => {
+            return (
               <ContactItem
-                name={item?.jobTitle}
+                key={index}
+                name={item?.displayName}
                 image={item?.thumbnailPath}
                 phone={item?.phoneNumbers}
                 onCallPress={() =>
                   setCall({
                     condition: true,
                     phone: item?.phoneNumbers,
-                    name: item?.jobTitle == '' ? 'Unknown' : item?.jobTitle,
+                    name:
+                      item?.displayName == '' || item?.displayName == undefined
+                        ? 'Unknown'
+                        : item?.displayName,
                   })
                 }
               />
-            )}
-          />
-        </View>
+            );
+          })}
+        </ScrollView>
         <NumbersList
           visible={call.condition}
           name={call.name}
           numbers={call.phone}
-          onClose={() => setCall({condition: false, phone: [], name: ''})}
+          onClose={() => setCall({...call, condition: false})}
         />
       </ImageBackground>
     </View>
