@@ -45,7 +45,11 @@ export default function Button({
         <ActivityIndicator color={Theme.colors.black} size={'small'} />
       ) : (
         <CustomText
-          style={[styles.text, disable && {color: Theme.colors.gray}]}>
+          style={[
+            styles.text,
+            disable && {color: Theme.colors.gray},
+            textStyle,
+          ]}>
           {text}
         </CustomText>
       )}

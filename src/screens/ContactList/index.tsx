@@ -2,21 +2,23 @@ import {
   FlatList,
   Image,
   ImageBackground,
-  Text,
   View,
   ScrollView,
   RefreshControl,
+  TouchalbeOpacity,
 } from 'react-native';
 import React, {useEffect, useState} from 'react';
 import {styles} from './style';
 import {ContactItem, Header, NumbersList} from '../../components';
 import Contacts from 'react-native-contacts';
 import {SearchBar} from 'react-native-elements';
+import {Text, Waves, Button} from '../../components';
 
 export default function ContactList(): JSX.Element {
   const [contacts, setContacts] = useState<any[]>([]);
   const [refresh, setRefresh] = useState<boolean>(false);
   const [searchQuery, setSearchQuery] = useState<string>('');
+  const [isPaused, setIsPaused] = useState<boolean>(false);
   const [call, setCall] = useState<{
     condition: boolean;
     phone: any[];
@@ -105,6 +107,7 @@ export default function ContactList(): JSX.Element {
         />
         <ScrollView
           style={styles.mainView}
+          // contentContainerStyle={{flexDirection: 'row'}}
           refreshControl={
             <RefreshControl
               refreshing={refresh}
@@ -136,6 +139,15 @@ export default function ContactList(): JSX.Element {
               />
             );
           })}
+          {/* <Waves
+            waveDuration={300}
+            paused={isPaused}
+            noOfWaves={14}
+          />
+          <Button
+            text={isPaused ? 'Play' : 'Pause'}
+            onPress={() => setIsPaused(!isPaused)}
+          />*/}
         </ScrollView>
         <NumbersList
           visible={call.condition}

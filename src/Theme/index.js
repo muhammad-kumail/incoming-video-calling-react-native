@@ -10,6 +10,7 @@ export {scale, verticalScale, moderateScale};
 
 export const normalized = {height, width, fontSize};
 
+// eslint-disable-next-line no-undef
 export default Theme = {
   colors: {
     white: '#fff',
