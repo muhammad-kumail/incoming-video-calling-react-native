@@ -1,5 +1,5 @@
 import React, {useEffect, useState} from 'react';
-import {Animated, StyleSheet, View, Style} from 'react-native';
+import {Animated, StyleProp, StyleSheet, View, ViewStyle} from 'react-native';
 
 interface WavesProps {
   minHeight?: number;
@@ -57,18 +57,6 @@ const Wave: React.FC<WavesProps> = ({
       heightAnim.stopAnimation();
     };
   }, [heightAnim, paused]);
-
-  const togglePause = () => {
-    if (paused) {
-      waveAnimation();
-    } else {
-      // Pause animation and store the current height
-      heightAnim.stopAnimation(value => heightAnim.setValue(value));
-    }
-
-    // Toggle the pause state
-    setPaused(!paused);
-  };
 
   return (
     <View style={[styles.container, {minHeight: maxHeight}, containerStyle]}>

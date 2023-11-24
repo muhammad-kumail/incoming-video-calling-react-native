@@ -17,9 +17,12 @@ export default Theme = {
     dimWhite: 'rgba(255, 255, 255, 0.75)',
     black: '#000',
     gray: '#808080',
+    red: '#f72325',
     lightGray: '#D3D3D3',
     lightblue: 'lightblue',
     yellow: '#e8ae0d',
+    lightYellow: '#f5c832',
+    lightGreen: '#7cd750',
   },
   fontFamily: {},
   fontSizes: {
