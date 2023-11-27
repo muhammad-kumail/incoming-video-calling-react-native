@@ -1,5 +1,5 @@
 import React, {useEffect, useState} from 'react';
-import {Animated, StyleProp, StyleSheet, View, ViewStyle} from 'react-native';
+import {Animated, StyleSheet, View} from 'react-native';
 
 interface WavesProps {
   minHeight?: number;
@@ -14,7 +14,7 @@ interface WavesProps {
   containerStyle?: StyleProp<ViewStyle>;
 }
 
-const Wave: React.FC<WavesProps> = ({
+const Bar: React.FC<WavesProps> = ({
   minHeight,
   maxHeight,
   barWidth,
@@ -23,7 +23,6 @@ const Wave: React.FC<WavesProps> = ({
   waveDuration,
   color,
   paused,
-  containerStyle,
 }) => {
   const [heightAnim] = useState(new Animated.Value(startFrom));
 
@@ -59,7 +58,7 @@ const Wave: React.FC<WavesProps> = ({
   }, [heightAnim, paused]);
 
   return (
-    <View style={[styles.container, {minHeight: maxHeight}, containerStyle]}>
+    <View style={[styles.container, {minHeight: maxHeight}]}>
       <Animated.View
         style={[
           styles.animatedView,
@@ -94,13 +93,15 @@ export default function Waves({
   }
   return (
     <View
-      // eslint-disable-next-line react-native/no-inline-styles
-      style={{
-        flexDirection: 'row',
-        // width: '100%',
-      }}>
+      style={[
+        // eslint-disable-next-line react-native/no-inline-styles
+        {
+          flexDirection: 'row',
+        },
+        containerStyle,
+      ]}>
       {waveArr.map((item: number, index: number) => (
-        <Wave
+        <Bar
           key={index}
           minHeight={minHeight}
           maxHeight={maxHeight}
@@ -110,7 +111,6 @@ export default function Waves({
           waveDuration={waveDuration}
           color={color}
           paused={paused}
-          containerStyle={containerStyle}
         />
       ))}
     </View>
