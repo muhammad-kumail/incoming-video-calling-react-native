@@ -11,7 +11,6 @@ interface WavesProps {
   color?: string;
   paused?: boolean;
   noOfWaves?: number;
-  containerStyle?: StyleProp<ViewStyle>;
 }
 
 const Bar: React.FC<WavesProps> = ({
