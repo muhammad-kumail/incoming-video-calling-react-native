@@ -1,5 +1,5 @@
 import React, {useEffect, useState} from 'react';
-import {Animated, StyleSheet, View} from 'react-native';
+import {Animated, StyleProp, StyleSheet, View, ViewStyle} from 'react-native';
 
 interface WavesProps {
   minHeight?: number;
@@ -88,7 +88,7 @@ export default function Waves({
   const waveArr = Array.from({length: noOfWaves}, () =>
     getRandomInt(minHeight, maxHeight),
   );
-  function getRandomInt(min, max) {
+  function getRandomInt(min: number, max: number) {
     return Math.floor(Math.random() * (max - min + 1)) + min;
   }
   return (
