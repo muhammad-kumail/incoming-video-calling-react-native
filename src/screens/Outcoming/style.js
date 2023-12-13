@@ -7,31 +7,25 @@ export const styles = StyleSheet.create({
     flex: 1,
   },
   upperView: {
-    flex: 4,
-    justifyContent: 'flex-end',
+    flex: 3,
+    justifyContent: 'center',
     alignItems: 'center',
-    gap: scale(10),
   },
   title: {
     color: Theme.colors.white,
     fontSize: Theme.fontSizes.big,
   },
-  contactPicView: {
-    borderRadius: scale(400),
-    overflow: 'hidden',
-    height: scale(145),
-    width: scale(145),
-    justifyContent: 'center',
-    alignItems: 'center',
-  },
   statusView: {
-    flex: 2.5,
-    justifyContent: 'center',
+    flex: 4,
     alignItems: 'center',
   },
   statusTitle: {
     color: Theme.colors.white,
-    fontSize: Theme.fontSizes.xmedium,
+    fontSize: Theme.fontSizes.small,
+  },
+  optionTitle: {
+    color: Theme.colors.white,
+    fontSize: Theme.fontSizes.verySmall,
   },
   bottomView: {
     flex: 1.5,
@@ -39,17 +33,26 @@ export const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
   },
-  animatedBtnView: {
+  CallBtnView: {
     padding: scale(10),
-    backgroundColor: Theme.colors.white,
+    backgroundColor: Theme.colors.red,
     justifyContent: 'center',
     alignItems: 'center',
     borderRadius: scale(100),
     zIndex: 1,
   },
-  arrows: {
-    width: scale(20),
+  optionView: {
+    height: scale(45),
+    width: scale(45),
+    backgroundColor: Theme.colors.white,
     justifyContent: 'center',
+    alignItems: 'center',
+    borderRadius: scale(100),
+  },
+  flatlistItemView: {
+    margin: scale(45),
+    marginVertical: scale(35),
+    gap: scale(8),
     alignItems: 'center',
   },
 });

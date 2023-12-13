@@ -129,67 +129,25 @@ export default function Incoming({navigtion}: any) {
       start={{x: 0, y: 0}}
       end={{x: 1, y: 1.5}}
       colors={['#e8ae0d', '#DE7906']}>
-      <View
-        style={{
-          flex: 4,
-          justifyContent: 'flex-end',
-          alignItems: 'center',
-          gap: scale(10),
-          //   borderWidth: 1,
-        }}>
-        <Text
-          style={{
-            color: Theme.colors.white,
-            fontSize: Theme.fontSizes.big,
-          }}>
-          {'Father'}
-        </Text>
-        <View
-          style={{
-            borderRadius: scale(400),
-            overflow: 'hidden',
-            // backgroundColor: 'red',
-            height: scale(145),
-            width: scale(145),
-            justifyContent: 'center',
-            alignItems: 'center',
-          }}>
+      <View style={styles.upperView}>
+        <Text style={styles.title}>{'Father'}</Text>
+        <View style={styles.contactPicView}>
           <SvgXml xml={defaultAvatar} height={scale(150)} width={scale(150)} />
         </View>
       </View>
-      <View
-        style={{
-          flex: 2.5,
-          justifyContent: 'center',
-          alignItems: 'center',
-          //   borderWidth: 1,
-        }}>
-        <Text
-          style={{
-            color: Theme.colors.white,
-            fontSize: Theme.fontSizes.xmedium,
-          }}>
-          {'Calling...'}
-        </Text>
+
+      <View style={styles.statusView}>
+        <Text style={styles.statusTitle}>{'Calling...'}</Text>
       </View>
-      <View
-        style={{
-          flex: 1.5,
-          flexDirection: 'row',
-          justifyContent: 'center',
-          alignItems: 'center',
-          //   borderWidth: 1,
-        }}>
+
+      <View style={styles.bottomView}>
         <Animated.View
-          style={{
-            padding: scale(10),
-            backgroundColor: Theme.colors.white,
-            justifyContent: 'center',
-            alignItems: 'center',
-            borderRadius: scale(100),
-            zIndex: 1,
-            transform: [{translateX: pan2.x}],
-          }}
+          style={[
+            styles.animatedBtnView,
+            {
+              transform: [{translateX: pan2.x}],
+            },
+          ]}
           {...panResponder2.panHandlers}>
           <Icon
             type="material"
@@ -209,11 +167,7 @@ export default function Incoming({navigtion}: any) {
               : 'transparent'
           }
           size={scale(30)}
-          style={{
-            width: scale(20),
-            justifyContent: 'center',
-            alignItems: 'center',
-          }}
+          style={styles.arrows}
         />
         <Icon
           type="material"
@@ -226,11 +180,7 @@ export default function Incoming({navigtion}: any) {
               : 'transparent'
           }
           size={scale(30)}
-          style={{
-            width: scale(20),
-            justifyContent: 'center',
-            alignItems: 'center',
-          }}
+          style={styles.arrows}
         />
         <Icon
           type="material"
@@ -263,11 +213,7 @@ export default function Incoming({navigtion}: any) {
               : 'transparent'
           }
           size={scale(30)}
-          style={{
-            width: scale(20),
-            justifyContent: 'center',
-            alignItems: 'center',
-          }}
+          style={styles.arrows}
         />
         <Icon
           type="material"
@@ -280,11 +226,7 @@ export default function Incoming({navigtion}: any) {
               : 'transparent'
           }
           size={scale(30)}
-          style={{
-            width: scale(20),
-            justifyContent: 'center',
-            alignItems: 'center',
-          }}
+          style={styles.arrows}
         />
         <Icon
           type="material"
@@ -299,15 +241,12 @@ export default function Incoming({navigtion}: any) {
           size={scale(30)}
         />
         <Animated.View
-          style={{
-            padding: scale(10),
-            backgroundColor: Theme.colors.white,
-            justifyContent: 'center',
-            alignItems: 'center',
-            borderRadius: scale(100),
-            zIndex: 1,
-            transform: [{translateX: pan.x}],
-          }}
+          style={[
+            styles.animatedBtnView,
+            {
+              transform: [{translateX: pan.x}],
+            },
+          ]}
           {...panResponder.panHandlers}>
           <Icon
             type="material"
