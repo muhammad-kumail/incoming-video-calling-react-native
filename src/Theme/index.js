@@ -16,6 +16,8 @@ export default Theme = {
     white: '#fff',
     dimWhite: 'rgba(255, 255, 255, 0.75)',
     black: '#000',
+    red: 'red',
+    lightGreen: '#66E966',
     gray: '#808080',
     lightGray: '#D3D3D3',
     lightblue: 'lightblue',

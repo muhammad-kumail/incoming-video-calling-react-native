@@ -13,8 +13,8 @@ import {ContactItem, Header, NumbersList} from '../../components';
 import Contacts from 'react-native-contacts';
 import {SearchBar} from 'react-native-elements';
 import {Text, Waves, Button} from '../../components';
-
-export default function ContactList(): JSX.Element {
+//@ts-ignore
+export default function ContactList({navigation}): JSX.Element {
   const [contacts, setContacts] = useState<any[]>([]);
   const [refresh, setRefresh] = useState<boolean>(false);
   const [searchQuery, setSearchQuery] = useState<string>('');
@@ -99,6 +99,7 @@ export default function ContactList(): JSX.Element {
           inputStyle={styles.searchBarInputStyle}
           leftIconContainerStyle={styles.searchBarLeftIconContainerStyle}
           value={searchQuery}
+          //@ts-ignore
           onChangeText={(e: string) => {
             setSearchQuery(e);
             loadContactsByName(e);
@@ -154,6 +155,9 @@ export default function ContactList(): JSX.Element {
           name={call.name}
           numbers={call.phone}
           onClose={() => setCall({...call, condition: false})}
+          onCall={e => {
+            navigation.navigate('Outcoming', {name: call.name, phone: e});
+          }}
         />
       </ImageBackground>
     </View>

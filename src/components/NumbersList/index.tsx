@@ -11,6 +11,7 @@ interface NumbersListProps {
   name: string;
   numbers: Array<{label: string; number: string}>;
   onClose: () => void;
+  onCall: (e: any) => void;
 }
 
 const NumbersList: React.FC<NumbersListProps> = ({
@@ -18,6 +19,7 @@ const NumbersList: React.FC<NumbersListProps> = ({
   name,
   numbers,
   onClose,
+  onCall,
 }) => {
   const sheetRef = useRef<RBSheet>(null);
   const [activeIndex, setActiveIndex] = useState<number>(0);
@@ -115,7 +117,8 @@ const NumbersList: React.FC<NumbersListProps> = ({
         // loading={true}
         onPress={() => {
           sheetRef.current?.close();
-          onClose();
+          onCall(numbers[activeIndex]);
+          // onClose();
         }}
         style={{marginVertical: scale(15)}}
       />

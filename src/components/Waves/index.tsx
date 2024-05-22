@@ -63,9 +63,6 @@ const Bar: React.FC<WavesProps> = ({
       // Pause animation and store the current height
       heightAnim.stopAnimation(value => heightAnim.setValue(value));
     }
-
-    // Toggle the pause state
-    setPaused(!paused);
   };
 
   return (
